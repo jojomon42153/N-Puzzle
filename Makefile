@@ -12,22 +12,23 @@
 
 .PHONY: all get install run fclean test
 
-GONAME = expert_system
+GONAME = npuzzle
 
 TEST_FILE = other/corr1.txt
 
 GOPATH = $(shell pwd)
 GOBIN = $(GOPATH)/bin
 GOENV = GOPATH=$(GOPATH) GOBIN=$(GOBIN)  
-FILES = $(wildcard ls cmd/)
-GOFILES = $(addprefix cmd/, $(FILES))
+FILES = $(wildcard ls cmd/*)
+#GOFILES = $(addprefix cmd/, $(FILES))
 EXECPATH = ./bin/$(GONAME)
+
 
 all: $(EXECPATH)
 
 $(EXECPATH): $(GOFILES)
-	@printf "0️⃣  Building $(GOFILES) to ./bin \n"
-	@$(GOENV) go build -o $(EXECPATH) $(GOFILES)
+	@printf "0️⃣  Building $(FILES) to ./bin \n"
+	@$(GOENV) go build -o $(EXECPATH) $(FILES)
 	@printf "✅  Built! ✅\n"
 
 get:

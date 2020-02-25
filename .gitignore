@@ -17,3 +17,8 @@
 # Misc
 .DS_Store
 
+# Executable
+*npuzzle
+
+# Vim
+*.swp
