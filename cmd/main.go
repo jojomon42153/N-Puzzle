@@ -16,7 +16,7 @@ func main() {
 
     for count < size * size {
         for j < size {
-            if (tab[i][j] == 0) {
+            if (tab[i][j] == 0 && count < size * size) {
                 tab[i][j] = count;
                 count++;
             }
@@ -26,7 +26,7 @@ func main() {
             j++;
         }
         for i < size {
-            if (tab[i][j] == 0) {
+            if (tab[i][j] == 0 && count < size * size) {
                 tab[i][j] = count;
                 count++;
             }
@@ -36,7 +36,7 @@ func main() {
             i++;
         }
         for j >= 0 {
-            if (tab[i][j] == 0) {
+            if (tab[i][j] == 0 && count < size * size) {
                 tab[i][j] = count;
                 count++;
             }
@@ -46,7 +46,7 @@ func main() {
             j--;
         }
         for i >= 0 {
-            if (tab[i][j] == 0) {
+            if (tab[i][j] == 0 && count < size * size) {
                 tab[i][j] = count;
                 count++;
             }
