@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 11:24:29 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/26 11:48:20 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ type stats struct {
 // structure utilisee pour stocker toute information generale relative au projet
 // openedSet => map de hashage de tous les states dans l'état opened
 // closedSet => map de hashage de tous les states dans l'état opened
-// finalCoord => tableau de pointeur sur coordonnee definissant le final state
 // finalState2D => tableau 2D definissant le final state
 // finalState1D => tableau 1D definissant le final state
-// stats => pointeur sur la structure stats
+// finalCoord => tableau de pointeur sur coordonnee definissant le final state
+// stats => structure stats
 var env struct {
 	openedSet    map[string]*state
 	closedSet    map[string]*state
-	finalCoord   []*coord
 	finalState2D [][]int
 	finalState1D []int
-	stats        *stats
+	finalCoord   []*coord
+	stats        stats
 }
