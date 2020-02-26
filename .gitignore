@@ -22,3 +22,6 @@
 
 # Vim
 *.swp
+
+# Goland IDE
+*.idea
