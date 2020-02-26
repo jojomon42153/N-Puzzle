@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 10:59:23 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/26 11:24:29 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ type coord struct {
 // initialCost => nombre de coups pour arriver a ce state
 // heuristicCost => cout determine par l'heurisitque
 // totalCost => somme de heuristicCost et initialCost
+// isOpen => true si ce state est dans l'openSet
 type state struct {
 	parent        *state
 	state2D       [][]int
@@ -51,7 +52,7 @@ type stats struct {
 // finalState2D => tableau 2D definissant le final state
 // finalState1D => tableau 1D definissant le final state
 // stats => pointeur sur la structure stats
-type env struct {
+var env struct {
 	openedSet    map[string]*state
 	closedSet    map[string]*state
 	finalCoord   []*coord
