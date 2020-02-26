@@ -6,7 +6,7 @@
 #    By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by jmonneri          #+#    #+#              #
-#    Updated: 2020/02/25 15:08:21 by jmonneri         ###   ########.fr        #
+#    Updated: 2020/02/26 11:43:49 by jmonneri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ EXECPATH = ./bin/$(GONAME)
 
 all: $(EXECPATH)
 
-$(EXECPATH): $(GOFILES)
+$(EXECPATH): $(FILES)
 	@printf "0️⃣  Building $(FILES) to ./bin \n"
 	@$(GOENV) go build -o $(EXECPATH) $(FILES)
 	@printf "✅  Built! ✅\n"

@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 10:59:23 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/26 13:57:28 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ type coord struct {
 // initialCost => nombre de coups pour arriver a ce state
 // heuristicCost => cout determine par l'heurisitque
 // totalCost => somme de heuristicCost et initialCost
+// isOpen => true si ce state est dans l'openSet
 type state struct {
 	parent        *state
 	state2D       [][]int
@@ -34,7 +35,7 @@ type state struct {
 	isOpen        bool
 }
 
-// structure utilisée pour stocker les informations statistiques generales
+// Structure utilisée pour stocker les informations statistiques generales
 // nbOpened => nombre total de states ayant ete dans l'openedSet
 // nbClosed => nombre maximal de states presents en mémoire au meme moment (max(nbOpenedSet+nbClosedSet))
 // nbMoves => nombre de coups totaux de la solution finale
@@ -44,19 +45,19 @@ type stats struct {
 	nbMoves        int
 }
 
-// structure utilisee pour stocker toute information generale relative au projet
+// Structure utilisee pour stocker toute information generale relative au projet
 // openedSet => map de hashage de tous les states dans l'état opened
 // closedSet => map de hashage de tous les states dans l'état opened
-// finalCoord => tableau de pointeur sur coordonnee definissant le final state
 // finalState2D => tableau 2D definissant le final state
 // finalState1D => tableau 1D definissant le final state
-// stats => pointeur sur la structure stats
+// finalCoord => tableau de pointeur sur coordonnee definissant le final state
+// stats => structure stats
 var env struct {
 	openedSet    map[string]*state
 	closedSet    map[string]*state
-	size 		 int
-	finalCoord   []coord
+	size         int
 	finalState2D [][]int
 	finalState1D []int
-	stats        *stats
+	finalCoord   []coord
+	stats        stats
 }
