@@ -6,7 +6,7 @@
 #    By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by jmonneri          #+#    #+#              #
-#    Updated: 2020/02/25 02:30:37 by jmonneri         ###   ########.fr        #
+#    Updated: 2020/02/25 15:08:21 by jmonneri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,12 @@
 
 GONAME = npuzzle
 
-TEST_FILE = other/corr1.txt
+TEST_FILE = ./examples/correctInput.txt
 
 GOPATH = $(shell pwd)
 GOBIN = $(GOPATH)/bin
 GOENV = GOPATH=$(GOPATH) GOBIN=$(GOBIN)  
-FILES = $(wildcard ls cmd/*)
-#GOFILES = $(addprefix cmd/, $(FILES))
+FILES = $(wildcard ls cmd/*.go)
 EXECPATH = ./bin/$(GONAME)
 
 
@@ -43,7 +42,7 @@ script: all
 	@sh tests.sh
 
 run: all
-	@$(EXECPATH) ./examples/$(TEST_FILE)
+	@$(EXECPATH) $(TEST_FILE)
 	
 %:
 	@:
