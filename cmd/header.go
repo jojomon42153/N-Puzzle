@@ -51,10 +51,11 @@ type stats struct {
 // finalState2D => tableau 2D definissant le final state
 // finalState1D => tableau 1D definissant le final state
 // stats => pointeur sur la structure stats
-type env struct {
+var env struct {
 	openedSet    map[string]*state
 	closedSet    map[string]*state
-	finalCoord   []*coord
+	size 		 int
+	finalCoord   []coord
 	finalState2D [][]int
 	finalState1D []int
 	stats        *stats
