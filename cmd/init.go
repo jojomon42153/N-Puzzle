@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 11:03:41 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 13:52:13 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:18:08 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,35 +68,28 @@ func initFinalState2D() [][]int {
 	return tab
 }
 
-func initFinalState1D() []int {
-	var tab []int = make([]int, 0)
-	for _, line := range env.finalState2D {
-		tab = append(tab, line...)
+func initFinalState() *state {
+	var fState state = state{
+		parent:        nil,
+		state2D:       initFinalState2D(),
+		state1D:       nil,
+		coord:         nil,
+		zeroCoord:	   getInitialZeroCoord(env.size)
+		initialCost:   0,
+		heuristicCost: 0,
+		totalCost:     0,
+		isOpen:        false,
 	}
-	return tab
-}
-
-func initFinalCoord() []coord {
-	size := env.size * env.size
-	var tab []coord = make([]coord, size)
-	for y, line := range env.finalState2D {
-		for x, tile := range line {
-			tab[tile] = coord{x, y}
-		}
-	}
-	return tab
+	fState.state1D = array2Dto1D(fState.state2D)
+	fState.coord = arr2DtoCoord(fState.state2D)
+	return &fState
 }
 
 func initEnv(n int) {
 	env.size = n
-	env.openedSet = make(map[string]*state)
+	env.openedSet = &openedSet{tab: make([]*state, 1)}
 	env.closedSet = make(map[string]*state)
-	env.finalState2D = initFinalState2D()
-	env.finalState1D = initFinalState1D()
-	env.finalCoord = initFinalCoord()
+	env.allSets = make(map[string]*state)
+	env.finalState = initFinalState()
 	env.stats = stats{0, 0, 0}
-}
-
-func initState() {
-
 }
