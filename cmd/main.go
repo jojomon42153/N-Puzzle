@@ -45,6 +45,8 @@ func createDataSet(n int) {
 	for _, line := range initial.state2D {
 		initial.state1D = append(initial.state1D, line...)
 	}
+	//initial.heuristicCost = manhattan(initial.state2D);
+	//print(initial.heuristicCost);
 	env.openedSet.tab[0] = initial
 }
 
