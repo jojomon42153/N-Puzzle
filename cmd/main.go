@@ -12,10 +12,10 @@
 
 package main
 
-func createDataSet(n int) {
+func createDataSet(twoD [][]int) {
 	var initial *state = &state{
 		parent:        nil,
-		state2D:       make([][]int, n),
+		state2D:       twoD,
 		state1D:       make([]int, 0),
 		coord:         nil,
 		initialCost:   0,
@@ -30,16 +30,16 @@ func createDataSet(n int) {
 	// 17 16 15 14 13 12
 	// 11 10 9  8  7  6
 	// 5  4  3  2  1  0
-	for i := 0; i < n; i++ {
-		initial.state2D[i] = make([]int, n)
-	}
-	var i int = n*n - 1
-	for y, line := range initial.state2D {
-		for x := range line {
-			initial.state2D[y][x] = i
-			i--
-		}
-	}
+	//for i := 0; i < n; i++ {
+	//	initial.state2D[i] = make([]int, n)
+	//}
+	//var i int = n*n - 1
+	//for y, line := range initial.state2D {
+	//	for x := range line {
+	//		initial.state2D[y][x] = i
+	//		i--
+	//	}
+	//}
 	initial.zeroCoord = searchZeroCoord(initial.state2D)
 	// init state1D
 	for _, line := range initial.state2D {
@@ -49,8 +49,9 @@ func createDataSet(n int) {
 }
 
 func main() {
-	n := parse()
-	initEnv(n)
-	createDataSet(n)
-	aStar()
+	//n := parse()
+	parse()
+	//initEnv(n)
+	//createDataSet(n)
+	//aStar()
 }
