@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 13:57:28 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:03:43 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ type state struct {
 	parent        *state
 	state2D       [][]int
 	state1D       []int
+	coord         []coord
+	zeroCoord     coord
 	initialCost   int
 	heuristicCost int
 	totalCost     int
@@ -45,6 +47,27 @@ type stats struct {
 	nbMoves        int
 }
 
+// Structure de la priority queue (file de priorité)
+// tab => tableau des openedStates triés par la methode heapsort (sur le tas)
+// isEmpty => retourne true si la file est vide
+// insertWithCostPriority => insère dans la file en triant du totalCost minimum au totalCost maximum par un heapsort
+// pullLowestCost => retire le premier element de la liste (ici le moins cher donc) et reconstruit le tas
+type openedSet struct {
+	tab []*state
+}
+
+func (me *openedSet) isEmpty() bool {
+	return len(me.tab) == 0
+}
+
+func (me *openedSet) insertWithCostPriority() {
+
+}
+
+func (me *openedSet) pullLowestCost() *state {
+	return &state{}
+}
+
 // Structure utilisee pour stocker toute information generale relative au projet
 // openedSet => map de hashage de tous les states dans l'état opened
 // closedSet => map de hashage de tous les states dans l'état opened
@@ -53,11 +76,10 @@ type stats struct {
 // finalCoord => tableau de pointeur sur coordonnee definissant le final state
 // stats => structure stats
 var env struct {
-	openedSet    map[string]*state
-	closedSet    map[string]*state
-	size         int
-	finalState2D [][]int
-	finalState1D []int
-	finalCoord   []coord
-	stats        stats
+	openedSet  *openedSet
+	closedSet  map[string]*state
+	allSets    map[string]*state
+	size       int
+	finalState *state
+	stats      stats
 }

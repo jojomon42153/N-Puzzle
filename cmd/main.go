@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 13:54:34 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 13:01:44 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,45 @@ package main
 
 import "fmt"
 
-func main() {
-<<<<<<< HEAD
-
-	size := 5
-	tab := make([][]int, size)
-	for i := 0; i < size; i++ {
-		tab[i] = make([]int, size);
+func createDataSet(n int) {
+	var initial *state = &state{
+		parent:        nil,
+		state2D:       make([][]int, n),
+		state1D:       make([]int, n*n),
+		coord:         nil,
+		initialCost:   0,
+		heuristicCost: 0,
+		totalCost:     0,
+		isOpen:        true,
 	}
+	// init state 2D
+	// 35 34 33 32 31 30
+	// 29 28 27 26 25 24
+	// 23 22 21 20 19 18
+	// 17 16 15 14 13 12
+	// 11 10 9  8  7  6
+	// 5  4  3  2  1  0
+	for i := 0; i < n; i++ {
+		initial.state2D[i] = make([]int, n)
+	}
+	var i int = n*n - 1
+	for y, line := range initial.state2D {
+		for x := range line {
+			initial.state2D[y][x] = i
+			i--
+		}
+	}
+	initial.zeroCoord = searchZeroCoord(initial.state2D)
+	// init state1D
+	for _, line := range initial.state2D {
+		initial.state1D = append(initial.state1D, line...)
+	}
+	env.openedSet.tab[0] = initial
+}
 
-    count := 1;
-    i := 0;
-    j := 0;
-
-    for count < size * size {
-        for j < size {
-            if (tab[i][j] == 0 && count < size * size) {
-                tab[i][j] = count;
-                count++;
-            }
-            if (j + 1 >= size || ( j + 1 < size && tab[i][j+1] != 0)) {
-                break
-            }
-            j++;
-        }
-        for i < size {
-            if (tab[i][j] == 0 && count < size * size) {
-                tab[i][j] = count;
-                count++;
-            }
-            if (i + 1 >= size || ( i + 1 < size && tab[i + 1][j] != 0)) {
-                break
-            }
-            i++;
-        }
-        for j >= 0 {
-            if (tab[i][j] == 0 && count < size * size) {
-                tab[i][j] = count;
-                count++;
-            }
-            if (j - 1 < 0 || ( j - 1 >= 0 && tab[i][j - 1] != 0)) {
-                break
-            }
-            j--;
-        }
-        for i >= 0 {
-            if (tab[i][j] == 0 && count < size * size) {
-                tab[i][j] = count;
-                count++;
-            }
-            if (i - 1 < 0 || ( i - 1 >= 0 && tab[i-1][j] != 0)) {
-                break
-            }
-            i--;
-        }
-    }
-
-    k := 0
-    for k < size{
-        l := 0
-        for l < size {
-            fmt.Printf("%3d", tab[k][l])
-            l++
-        }
-        k++
-        fmt.Printf("\n")
-    }
-=======
-	initEnv(6)
-	fmt.Println(env)
->>>>>>> 7ccebc3a707c1c06a2466e3bdce483dbdbca9513
+func main() {
+	n := parse()
+	initEnv(n)
+	createDataSet(n)
+	aStar()
 }
