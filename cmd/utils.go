@@ -62,7 +62,7 @@ func getInitialZeroCoord(size int) coord {
 	return coord
 }
 
-func searchZeroCoord(state [][]int]) coord {
+func searchZeroCoord(state [][]int) coord {
 	for y, line := range state {
 		for x, tile := range line {
 			if tile == 0 {
@@ -70,4 +70,5 @@ func searchZeroCoord(state [][]int]) coord {
 			}
 		}
 	}
+	return coord{-1, -1}
 }

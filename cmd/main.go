@@ -52,5 +52,5 @@ func main() {
 	n := parse()
 	initEnv(n)
 	createDataSet(n)
-	aStar()
+	//aStar()
 }

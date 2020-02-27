@@ -13,20 +13,20 @@
 package main
 
 func abs(value int) int {
-	if (value < 0){
-		value = -value;
+	if value < 0 {
+		value = -value
 	}
-	return value;
+	return value
 }
 
-func manhattan(state2D[][] int) int {
-	cost := 0;
+func manhattan(state2D [][]int) int {
+	cost := 0
 	for i := 0; i < env.size; i++ {
 		for j := 0; j < env.size; j++ {
-			if (state2D[i][j] != 0) {
-				cost += abs((env.finalCoord[state2D[i][j]].y - i)) + abs((env.finalCoord[state2D[i][j]].x - j))
+			if state2D[i][j] != 0 {
+				cost += abs((env.finalState.coord[state2D[i][j]].y - i)) + abs((env.finalState.coord[state2D[i][j]].x - j))
 			}
 		}
 	}
-	return (cost);
+	return (cost)
 }

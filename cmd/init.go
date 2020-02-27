@@ -74,7 +74,7 @@ func initFinalState() *state {
 		state2D:       initFinalState2D(),
 		state1D:       nil,
 		coord:         nil,
-		zeroCoord:	   getInitialZeroCoord(env.size)
+		zeroCoord:     getInitialZeroCoord(env.size),
 		initialCost:   0,
 		heuristicCost: 0,
 		totalCost:     0,
