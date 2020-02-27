@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 13:59:47 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 22:54:13 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,25 @@ func createDataSet(n int) {
 			i--
 		}
 	}
+	initial.state2D[0][0] = 6
+	initial.state2D[0][1] = 8
+	initial.state2D[0][2] = 1
+	initial.state2D[1][0] = 2
+	initial.state2D[1][1] = 7
+	initial.state2D[1][2] = 4
+	initial.state2D[2][0] = 3
+	initial.state2D[2][1] = 5
+	initial.state2D[2][2] = 0
 	initial.zeroCoord = searchZeroCoord(initial.state2D)
 	// init state1D
 	for _, line := range initial.state2D {
 		initial.state1D = append(initial.state1D, line...)
 	}
-	//initial.heuristicCost = manhattan(initial.state2D);
-	//print(initial.heuristicCost);
+	initial.index = arrayToString(initial.state1D, ",")
+	calcHeuristicCost = manhattan
+	calcHeuristicCost(initial)
 	env.openedSet.tab[0] = initial
+	env.allSets[initial.index] = initial
 }
 
 func main() {

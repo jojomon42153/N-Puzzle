@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 13:55:48 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 22:28:49 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,21 @@ func searchZeroCoord(state [][]int) coord {
 		}
 	}
 	return coord{-1, -1}
+}
+
+func printState(state *state) {
+	for _, line := range state.state2D {
+		fmt.Println(line)
+	}
+	fmt.Println(state.initialCost, " || ", state.heuristicCost)
+}
+
+func printSolve(state *state) {
+	if state == nil {
+		fmt.Println("parent nil")
+		return
+	}
+	printSolve(state.parent)
+	printState(state)
+	fmt.Println("=======")
 }

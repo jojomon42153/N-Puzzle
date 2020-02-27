@@ -6,12 +6,12 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/26 15:20:16 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 21:38:30 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 func parse() int {
-	return 6
+	return 3
 }

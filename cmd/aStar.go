@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 19:54:03 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 23:05:28 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ func moveTile(originCoord coord, destCoord coord, model *state) *state {
 	var a coord = originCoord
 	var b coord = destCoord
 	var state2D = duplicateState2D(model.state2D)
+	state2D[a.y][a.x], state2D[b.y][b.x] = state2D[b.y][b.x], state2D[a.y][a.x]
 	var state1D = array2Dto1D(state2D)
 	var childMove state = state{
 		parent:        model,
@@ -39,11 +40,10 @@ func moveTile(originCoord coord, destCoord coord, model *state) *state {
 		initialCost:   model.initialCost + 1,
 		heuristicCost: 0,
 		totalCost:     0,
-		index:         arrayToString(state1D, ""),
+		index:         arrayToString(state1D, ","),
 		isOpen:        true,
 	}
 	// move tile
-	childMove.state2D[a.y][a.x], childMove.state2D[b.y][b.x] = childMove.state2D[b.y][b.x], childMove.state2D[a.y][a.x]
 	return &childMove
 }
 
@@ -107,5 +107,7 @@ func aStar() {
 	}
 	if success {
 		fmt.Println("ALLEZ A LA TEUF")
+		printSolve(env.finalState)
+		fmt.Printf("OpenSet = %d\nCloseSet = %d\n", len(env.openedSet.tab), len(env.closedSet))
 	}
 }
