@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 12:00:02 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 13:55:48 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ func getInitialZeroCoord(size int) coord {
 	return coord
 }
 
-func searchZeroCoord(state [][]int]) coord {
+func searchZeroCoord(state [][]int) coord {
 	for y, line := range state {
 		for x, tile := range line {
 			if tile == 0 {
@@ -70,4 +70,5 @@ func searchZeroCoord(state [][]int]) coord {
 			}
 		}
 	}
+	return coord{-1, -1}
 }
