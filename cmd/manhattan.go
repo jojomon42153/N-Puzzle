@@ -19,14 +19,17 @@ func abs(value int) int {
 	return value
 }
 
-func manhattan(state2D [][]int) int {
+func manhattan(actualState *state) {
+	state2d := actualState.state2D
+	coord := env.finalState.coord
 	cost := 0
 	for i := 0; i < env.size; i++ {
 		for j := 0; j < env.size; j++ {
-			if state2D[i][j] != 0 {
-				cost += abs((env.finalState.coord[state2D[i][j]].y - i)) + abs((env.finalState.coord[state2D[i][j]].x - j))
+			if state2d[i][j] != 0 {
+				cost += abs((coord[state2d[i][j]].y - i)) + abs((coord[state2d[i][j]].x - j))
 			}
 		}
 	}
-	return (cost)
+	actualState.heuristicCost = cost
+	actualState.totalCost = cost + actualState.initialCost
 }
