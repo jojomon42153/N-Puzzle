@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/02/28 14:07:56 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 20:04:16 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,5 @@ func manhattan(actualState *state) {
 			}
 		}
 	}
-	actualState.heuristicCost = cost
-	actualState.totalCost = cost + actualState.initialCost
+	actualState.heuristicCost += cost
 }

@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 19:45:15 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 19:59:08 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ func createFirstState(twoD [][]int) {
 		isOpen:        true,
 	}
 	initial.zeroCoord = searchZeroCoord(initial.state2D)
-	for _, line := range initial.state2D {
+	for _, line := range twoD {
 		initial.state1D = append(initial.state1D, line...)
 	}
 	initial.index = arrayToString(initial.state1D, ",")
@@ -47,6 +47,7 @@ func createFirstState(twoD [][]int) {
 	}
 
 	env.openedSet.tab[0] = initial
+	ch["nbOpened"] <- incr // on incremente la stat du nombre de states open
 	env.allSets[initial.index] = initial
 }
 
