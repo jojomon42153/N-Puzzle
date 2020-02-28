@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 14:04:50 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 15:21:17 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ func createDataSet(n int) {
 		initial.state1D = append(initial.state1D, line...)
 	}
 	initial.index = arrayToString(initial.state1D, ",")
-	calcHeuristicCost = manhattan
 	calcHeuristicCost(initial)
 
 	// fmt.Println(initial.state1D)
@@ -65,16 +64,24 @@ func createDataSet(n int) {
 
 	fmt.Println(checkSolvability(initial, n))
 
-	tilesOutOfPlace(initial)
-	euclidian(initial)
 	env.openedSet.tab[0] = initial
 	env.allSets[initial.index] = initial
 }
 
 func main() {
 	n := parse()
-	n = 3
+	calcHeuristicCost = manhattan
+
+	ch["nbOpened"] = make(chan int)
+	ch["nbClosed"] = make(chan int)
+	go updateNbOpened()
+	go updateNbClosed()
+
 	initEnv(n)
 	createDataSet(n)
 	aStar()
+
+	for _, chanel := range ch {
+		close(chanel)
+	}
 }

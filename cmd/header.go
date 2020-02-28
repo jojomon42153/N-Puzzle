@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 21:57:10 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 15:12:59 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ type state struct {
 // nbClosed => nombre maximal de states presents en mémoire au meme moment (max(nbOpenedSet+nbClosedSet))
 // nbMoves => nombre de coups totaux de la solution finale
 type stats struct {
-	nbOpened       int
-	nbMaxAllocated int
-	nbMoves        int
+	nbOpened    int
+	nbClosed    int
+	nbTotal     int
+	nbMaxOpened int
+	nbMaxTotal  int
+	nbMoves     int
 }
 
 // Structure de la priority queue (file de priorité)
@@ -134,3 +137,10 @@ var env struct {
 }
 
 var calcHeuristicCost func(*state)
+var ch map[string]chan int
+
+const (
+	incr = 0
+	decr = 1
+	exit = 2
+)
