@@ -49,15 +49,24 @@ func checkSolvability(initial *state) bool {
 	}
 }
 
-func fillLines(str [][]byte, twoD [][]int, lines int) [][]int {
-	i := 0
-	if lines == 0 {
+func fillLines(str [][]byte, twoD [][]int, lines *int) [][]int {
+    count := 0
+    i := 0
+
+	if *lines == 0 { //create tab if first it's not done yet
 		twoD = make([][]int, env.size)
 	}
-	for _, elem := range str {
+
+	for _, elem := range str { // get line(s)
 		i, _ = strconv.Atoi(string(elem))
-		twoD[lines] = append(twoD[lines], i)
+		twoD[*lines] = append(twoD[*lines], i)
+        count++
+        if count == env.size {
+            *lines += 1
+            count = 0
+        }
 	}
+
 	return twoD
 }
 
@@ -80,13 +89,16 @@ func parse(fileName string) int {
 		str := re.ReplaceAll(text, []byte(""))
 		if string(str) != "" { // si la ligne n'est pas un commentaire
 			str2 := re2.ReplaceAll(str, []byte(""))
+            print("str : ")
+            print(string(str2))
+            print("\n")
 			if lines == env.size {
 				log.Fatal("not well formated: too much lines")
 				twoD = nil
 				os.Exit(1)
 			}
 			if !strings.EqualFold(string(str2), string(str)) { //si la ligne contient un caractere indesirable
-				log.Fatal("not well formated")
+                log.Fatal("not well formated: bad char")
 				twoD = nil
 				os.Exit(1)
 			}
@@ -97,13 +109,12 @@ func parse(fileName string) int {
 				}
 			} else {
 				str4 := re4.FindAll(str2, -1)
-				if len(str4) != env.size {
-					log.Fatal("not well formated")
+				if len(str4) != env.size  && len(str4) != env.size * env.size{
+                    log.Fatal("not well formated: ")
 					twoD = nil
 					os.Exit(1)
 				}
-				twoD = fillLines(str4, twoD, lines)
-				lines++
+				twoD = fillLines(str4, twoD, &lines)
 			}
 		}
 	}
