@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 15:21:17 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 17:30:40 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ import "fmt"
 func createDataSet(n int) {
 	var initial *state = &state{
 		parent:        nil,
-		state2D:       make([][]int, n),
+		state2D:       twoD,
 		state1D:       make([]int, 0),
 		coord:         nil,
 		initialCost:   0,
