@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/02/28 12:17:47 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 14:07:56 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,19 @@ func tilesOutOfPlace(current *state) {
 		}
 	}
 	current.heuristicCost += int(counter)
+}
+
+func manhattan(actualState *state) {
+	state2d := actualState.state2D
+	coord := env.finalState.coord
+	cost := 0
+	for i := 0; i < env.size; i++ {
+		for j := 0; j < env.size; j++ {
+			if state2d[i][j] != 0 {
+				cost += abs((coord[state2d[i][j]].y - i)) + abs((coord[state2d[i][j]].x - j))
+			}
+		}
+	}
+	actualState.heuristicCost = cost
+	actualState.totalCost = cost + actualState.initialCost
 }
