@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 18:02:45 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 19:29:49 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,34 @@ import (
 	"strconv"
 	"strings"
 )
+
+func createFirstState(twoD [][]int) {
+	initEnv(env.size)
+	var initial *state = &state{
+		parent:        nil,
+		state2D:       twoD,
+		state1D:       make([]int, 0),
+		coord:         nil,
+		initialCost:   0,
+		heuristicCost: 0,
+		totalCost:     0,
+		isOpen:        true,
+	}
+	initial.zeroCoord = searchZeroCoord(initial.state2D)
+	for _, line := range initial.state2D {
+		initial.state1D = append(initial.state1D, line...)
+	}
+	initial.index = arrayToString(initial.state1D, ",")
+	calcHeuristicCost(initial)
+
+	if !checkSolvability(initial) {
+		log.Fatal("Taquin is not resolvable")
+		os.Exit(1)
+	}
+
+	env.openedSet.tab[0] = initial
+	env.allSets[initial.index] = initial
+}
 
 func checkSolvability(initial *state) bool {
 
@@ -74,8 +102,8 @@ func fillLines(str [][]byte, twoD [][]int, lines int) [][]int {
 func parse(fileName string) int {
 	env.size = -1
 	var twoD [][]int
-	re := regexp.MustCompile(`[#][\S ]*`)   //enleve les commentaires
-	re2 := regexp.MustCompile(`[^0-9 $]`)   //verifie qu'il n'y ai pas des caracteres de merde
+	re := regexp.MustCompile(`[#][\S ]*`)   // enleve les commentaires
+	re2 := regexp.MustCompile(`[^0-9 $]`)   // verifie qu'il n'y ait pas des caracteres de merde
 	re3 := regexp.MustCompile(`^([0-9]+)$`) // recupere la size du taquin
 	re4 := regexp.MustCompile(`([0-9]+)`)   // recupere une ligne du taquin
 	file, err := os.Open(fileName)
