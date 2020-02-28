@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 11:53:48 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/02/28 14:07:46 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,11 @@ func printSolve(state *state) {
 	printSolve(state.parent)
 	printState(state)
 	fmt.Println("=======")
+}
+
+func abs(value int) int {
+	if value < 0 {
+		return -value
+	}
+	return value
 }
