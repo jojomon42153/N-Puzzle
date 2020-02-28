@@ -13,6 +13,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -46,9 +47,51 @@ func createFirstState(twoD [][]int) {
 	env.allSets[initial.index] = initial
 }
 
+func arg(){
+	manhattanPtr := flag.Bool("hm", false, ": select manhattan as heuristic");
+	toopPtr := flag.Bool("ht", false, ": select toop as heuristic");
+	euclideanPtr := flag.Bool("he", false, ": select euclidean as heuristic");
+	filePtr := flag.String("f", "", ": -f thePuzzle.txt");
+	//wordPtr := flag.String("word", "foo", "a string")
+	flag.Parse()
+	if *filePtr == ""{
+		println("need a file !");
+		flag.PrintDefaults();
+		os.Exit(1);
+	}
+	//if *manhattanPtr == false && *toopPtr == false && *euclideanPtr == false{
+	//	println("need a heuristic ! Only one");
+	//	flag.PrintDefaults();
+	//	os.Exit(1);
+	//}
+	if (*manhattanPtr == true){
+		calcHeuristicCost = append(calcHeuristicCost, manhattan)
+	}
+	if (*toopPtr == true){
+		calcHeuristicCost = append(calcHeuristicCost, )
+	}
+	if (*euclideanPtr == true){
+	}
+	//if (i != 1){
+	//	println("need a heuristic ! Only one");
+	//	flag.PrintDefaults();
+	//	os.Exit(1);
+	//}
+	fmt.Println("file : ", *filePtr)
+	fmt.Println("hm : ", *manhattanPtr)
+	fmt.Println("ht : ", *toopPtr)
+	fmt.Println("he : ", *euclideanPtr)
+	fmt.Println("tail:", flag.Args())
+
+	file, err := os.Open(*filePtr);
+	if err != nil {
+		log.Fatal(err)
+	}
+	println(file);
+
+}
+
 func main() {
-	calcHeuristicCost = manhattan
-	fmt.Println("ici2")
 	parse("ressources/correctInput/taquin_dim4_0.txt")
 
 	ch = make(map[string]chan int, 2)

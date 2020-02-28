@@ -136,9 +136,8 @@ var env struct {
 	stats      stats
 }
 
-var calcHeuristicCost func(*state)
 var ch map[string]chan int
-
+var calcHeuristicCost []func(*state)
 const (
 	incr = 0
 	decr = 1
