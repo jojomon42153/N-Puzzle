@@ -90,13 +90,13 @@ func aStar() {
 		moveToClosed(current)
 		for _, child := range childs {
 			if _, ok := env.allSets[child.index]; !ok { // If child is a new state, calc heuristic and sort it in openedSet
-				calcHeuristicCost(child)
+				calculHeurisstic(child)
 				env.openedSet.insertWithCostPriority(child)
 				env.allSets[child.index] = child
 			} else if _, ok := env.closedSet[child.index]; ok { // If child was already opened, ignore this child
 				child = nil
 			} else if val, ok := env.allSets[child.index]; ok && val.isOpen { // If child is already in openset, keep the one with better score
-				calcHeuristicCost(child)
+				calculHeurisstic(child)
 				if val.totalCost > child.totalCost {
 					val.parent = child.parent
 					val.totalCost = child.totalCost
