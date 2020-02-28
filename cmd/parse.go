@@ -42,7 +42,6 @@ func parse() int {
 	re4 := regexp.MustCompile(`([0-9]+)`)   // recupere une ligne du taquin
 	file, err := os.Open("test.txt")
     lines := 0
-    er := false
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,14 +55,12 @@ func parse() int {
             if lines == env.size{
 				println("not well formated: too much lines")
                 twoD = nil;
-                er = true 
-                break;
+                return 0;
             }
 			if !strings.EqualFold(string(str2), string(str)) { //si la ligne contient un caractere indesirable
 				println("not well formated")
                 twoD = nil;
-                er = true 
-				break
+				return 0
 			}
 			if env.size == -1 { //si la taille du taquin n'a pas encore été set
 				str3 := re3.Find(str2)
@@ -75,8 +72,7 @@ func parse() int {
 				if len(str4) != env.size {
 					println("not well formated")
                     twoD = nil;
-                    er = true 
-					break
+					return 0
 				}
 				twoD = fillLines(str4, twoD, lines)
                 lines++
@@ -85,10 +81,12 @@ func parse() int {
 	}
 
     //Print twoD tab
-    if len(twoD) != env.size && !er{
+    if len(twoD) != env.size{
         twoD = nil;
         println("Lines missing or wrong size")
+        return 0
     }
+    print("print twoD:\n")
     for _, elem := range twoD {
         for _, e := range elem {
             print(e)
@@ -96,5 +94,31 @@ func parse() int {
         }
         print("\n")
     }
-	return 6
+
+   var oneD []int; 
+   maps := make(map[int] bool)
+   max := env.size * env.size
+    for _ , elem := range twoD {
+        for _, e := range elem {
+            if _, ok := maps[e]; !ok && e < max {
+                maps[e] = true
+                oneD = append(oneD, e)
+            }
+        }
+    }
+    print("print oneD:\n")
+    for _, e := range oneD {
+            print(e)
+            print(" ")
+    }
+    //Print oneD tab
+    print("\n")
+    if len(oneD) != max{
+        print("wrong format: uncorrect numbers\n")
+        twoD = nil;
+        oneD = nil;
+        return 0;
+    }
+	print("what do we return ?\n")
+    return 6
 }
