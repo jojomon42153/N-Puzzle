@@ -6,11 +6,15 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 10:03:43 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/27 21:57:10 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
+
+import (
+	"math"
+)
 
 type coord struct {
 	x int
@@ -27,6 +31,7 @@ type coord struct {
 // isOpen => true si ce state est dans l'openSet
 type state struct {
 	parent        *state
+	index         string
 	state2D       [][]int
 	state1D       []int
 	coord         []coord
@@ -60,12 +65,56 @@ func (me *openedSet) isEmpty() bool {
 	return len(me.tab) == 0
 }
 
-func (me *openedSet) insertWithCostPriority() {
-
+func (me *openedSet) insertWithCostPriority(new *state) {
+	me.tab = append(me.tab, new)
+	sorted := false
+	for !sorted {
+		newIndex := len(me.tab) - 1
+		parentIndex := int(math.Floor(float64((newIndex - 1) / 2)))
+		if me.tab[newIndex].totalCost < me.tab[parentIndex].totalCost {
+			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex]
+		} else {
+			sorted = true
+		}
+	}
 }
 
 func (me *openedSet) pullLowestCost() *state {
-	return &state{}
+	bestState := me.tab[0]
+	if len(me.tab) == 1 {
+		me.tab = make([]*state, 0)
+		return bestState
+	}
+	// Now we will construct back the "tree"
+	me.tab[0] = me.tab[len(me.tab)-1]
+	me.tab = me.tab[:len(me.tab)-1]
+	// The tree is constructed but the first value is not sorted
+	sorted := false
+	toSortIndex := 0
+
+	for !sorted {
+		var bestChildIndex int
+		leftChildIndex := toSortIndex*2 + 1
+		rightChildIndex := leftChildIndex + 1
+
+		if len(me.tab) == leftChildIndex+1 { // Si le tableau sarrete sur une branche gauche
+			bestChildIndex = leftChildIndex
+		} else if len(me.tab) < rightChildIndex+1 && len(me.tab) != leftChildIndex+1 {
+			bestChildIndex = toSortIndex
+
+		} else if me.tab[leftChildIndex].totalCost > me.tab[rightChildIndex].totalCost {
+			bestChildIndex = rightChildIndex
+		} else {
+			bestChildIndex = leftChildIndex
+		}
+		if me.tab[toSortIndex].totalCost > me.tab[bestChildIndex].totalCost {
+			me.tab[toSortIndex], me.tab[bestChildIndex] = me.tab[bestChildIndex], me.tab[toSortIndex]
+			toSortIndex = bestChildIndex
+		} else {
+			sorted = true
+		}
+	}
+	return bestState
 }
 
 // Structure utilisee pour stocker toute information generale relative au projet
@@ -83,3 +132,5 @@ var env struct {
 	finalState *state
 	stats      stats
 }
+
+var calcHeuristicCost func(*state)

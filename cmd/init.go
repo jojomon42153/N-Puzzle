@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 11:03:41 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 10:18:08 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:51:16 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,11 @@ func initFinalState() *state {
 		state2D:       initFinalState2D(),
 		state1D:       nil,
 		coord:         nil,
-		zeroCoord:	   getInitialZeroCoord(env.size)
+		zeroCoord:	   getInitialZeroCoord(env.size),
 		initialCost:   0,
 		heuristicCost: 0,
 		totalCost:     0,
-		isOpen:        false,
-	}
+		isOpen:        false}
 	fState.state1D = array2Dto1D(fState.state2D)
 	fState.coord = arr2DtoCoord(fState.state2D)
 	return &fState

@@ -6,7 +6,7 @@
 /*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 13:01:44 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/02/28 11:58:13 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ func createDataSet(n int) {
 	var initial *state = &state{
 		parent:        nil,
 		state2D:       make([][]int, n),
-		state1D:       make([]int, n*n),
+		state1D:       make([]int, 0),
 		coord:         nil,
 		initialCost:   0,
 		heuristicCost: 0,
@@ -42,17 +42,43 @@ func createDataSet(n int) {
 			i--
 		}
 	}
+	initial.state2D[0][0] = 6
+	initial.state2D[0][1] = 8
+	initial.state2D[0][2] = 1
+	initial.state2D[1][0] = 2
+	initial.state2D[1][1] = 7
+	initial.state2D[1][2] = 4
+	initial.state2D[2][0] = 3
+	initial.state2D[2][1] = 5
+	initial.state2D[2][2] = 0
 	initial.zeroCoord = searchZeroCoord(initial.state2D)
 	// init state1D
 	for _, line := range initial.state2D {
 		initial.state1D = append(initial.state1D, line...)
 	}
+	initial.index = arrayToString(initial.state1D, ",")
+	calcHeuristicCost = manhattan
+	calcHeuristicCost(initial)
+
+	// fmt.Println(initial.state1D)
+	// fmt.Println(env.finalState.state1D)
+
+	fmt.Println(checkSolvability(initial, n))
+
+	tilesOutOfPlace(initial)
+	euclidian(initial)
 	env.openedSet.tab[0] = initial
+	env.allSets[initial.index] = initial
 }
 
 func main() {
 	n := parse()
+	n = 3
 	initEnv(n)
 	createDataSet(n)
-	aStar()
+
+	// var test3 = []int {1,2,3,0,8,7,4,6,5}
+	// fmt.Println(env.finalState.state1D)
+	// euclidian(test3)
+	// aStar()
 }

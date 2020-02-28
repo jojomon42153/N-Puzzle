@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/27 12:00:02 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 11:53:48 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ func getInitialZeroCoord(size int) coord {
 	return coord
 }
 
-func searchZeroCoord(state [][]int]) coord {
+func searchZeroCoord(state [][]int) coord {
 	for y, line := range state {
 		for x, tile := range line {
 			if tile == 0 {
@@ -70,4 +70,22 @@ func searchZeroCoord(state [][]int]) coord {
 			}
 		}
 	}
+	return coord{-1, -1}
+}
+
+func printState(state *state) {
+	for _, line := range state.state2D {
+		fmt.Println(line)
+	}
+	fmt.Println(state.initialCost, " || ", state.heuristicCost)
+}
+
+func printSolve(state *state) {
+	if state == nil {
+		fmt.Println("parent nil")
+		return
+	}
+	printSolve(state.parent)
+	printState(state)
+	fmt.Println("=======")
 }
