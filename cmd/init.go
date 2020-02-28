@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 11:03:41 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 11:51:16 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/02/28 17:38:35 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ func initFinalState() *state {
 		state2D:       initFinalState2D(),
 		state1D:       nil,
 		coord:         nil,
-		zeroCoord:	   getInitialZeroCoord(env.size),
+		zeroCoord:     getInitialZeroCoord(env.size),
 		initialCost:   0,
 		heuristicCost: 0,
 		totalCost:     0,
@@ -90,5 +90,5 @@ func initEnv(n int) {
 	env.closedSet = make(map[string]*state)
 	env.allSets = make(map[string]*state)
 	env.finalState = initFinalState()
-	env.stats = stats{0, 0, 0}
+	env.stats = stats{0, 0, 0, 0, 0, 0}
 }

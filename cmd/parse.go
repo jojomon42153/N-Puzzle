@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 17:32:48 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 18:02:45 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ func checkSolvability(initial *state) bool {
 	//Width is odd
 	if env.size%2 == 1 {
 		return inv%2 == 1 // True if number of inversions is odd, if even false
-	} else if (zeroPos/env.size)%2 == 0 { //width is even, 0 is on an even row from bottom
+	} else if (zeroPos/env.size)%2 == 1 { //width is even, 0 is on an even row from bottom
 		fmt.Println("else if", inv%1)
-		return inv%2 == 1
+		return inv%2 == 0
 	} else {
 		fmt.Println("else", inv%2)
 		return inv%2 == 0
@@ -71,14 +71,14 @@ func fillLines(str [][]byte, twoD [][]int, lines int) [][]int {
 	return twoD
 }
 
-func parse() int {
+func parse(fileName string) int {
 	env.size = -1
 	var twoD [][]int
 	re := regexp.MustCompile(`[#][\S ]*`)   //enleve les commentaires
 	re2 := regexp.MustCompile(`[^0-9 $]`)   //verifie qu'il n'y ai pas des caracteres de merde
 	re3 := regexp.MustCompile(`^([0-9]+)$`) // recupere la size du taquin
 	re4 := regexp.MustCompile(`([0-9]+)`)   // recupere une ligne du taquin
-	file, err := os.Open("test.txt")
+	file, err := os.Open(fileName)
 	lines := 0
 	if err != nil {
 		log.Fatal(err)
@@ -149,7 +149,7 @@ func parse() int {
 		print(e)
 		print(" ")
 	}
-	//Print oneD tab
+	//Print oneD tabd
 	print("\n")
 	if len(oneD) != max {
 		print("wrong format: uncorrect numbers\n")
@@ -158,5 +158,6 @@ func parse() int {
 		return 0
 	}
 	print("what do we return ?\n")
+	createFirstState(twoD)
 	return 6
 }

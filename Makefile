@@ -6,7 +6,7 @@
 #    By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by jmonneri          #+#    #+#              #
-#    Updated: 2020/02/26 11:43:49 by jmonneri         ###   ########.fr        #
+#    Updated: 2020/02/28 17:39:29 by jmonneri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 GONAME = npuzzle
 
-TEST_FILE = ./examples/correctInput.txt
+TEST_FILE = ./ressources/correctInput/taquin_dim3_0.txt
 
 GOPATH = $(shell pwd)
 GOBIN = $(GOPATH)/bin
@@ -37,6 +37,7 @@ install:
 	@$(GOENV) go install $(GOFILES) 
 
 test: all
+
 
 script: all
 	@sh tests.sh
