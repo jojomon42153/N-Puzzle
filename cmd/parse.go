@@ -50,12 +50,12 @@ func checkSolvability(initial *state) bool {
 }
 
 func fillLines(str [][]byte, twoD [][]int, lines *int) [][]int {
-    count := 0
     i := 0
 
 	if *lines == 0 { //create tab if first it's not done yet
 		twoD = make([][]int, env.size)
 	}
+    count := len(twoD[*lines])
 
 	for _, elem := range str { // get line(s)
 		i, _ = strconv.Atoi(string(elem))
@@ -109,11 +109,6 @@ func parse(fileName string) int {
 				}
 			} else {
 				str4 := re4.FindAll(str2, -1)
-				if len(str4) != env.size  && len(str4) != env.size * env.size{
-                    log.Fatal("not well formated: ")
-					twoD = nil
-					os.Exit(1)
-				}
 				twoD = fillLines(str4, twoD, &lines)
 			}
 		}
