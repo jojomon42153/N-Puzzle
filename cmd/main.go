@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 11:58:13 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/02/28 14:04:50 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,5 @@ func main() {
 	n = 3
 	initEnv(n)
 	createDataSet(n)
-
-	// var test3 = []int {1,2,3,0,8,7,4,6,5}
-	// fmt.Println(env.finalState.state1D)
-	// euclidian(test3)
-	// aStar()
+	aStar()
 }
