@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 19:29:49 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/28 19:45:15 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,25 @@ func createFirstState(twoD [][]int) {
 
 func checkSolvability(initial *state) bool {
 
-	// fmt.Println(env.finalState.state1D)
 	inv := 0 //number of inversions
 	sqSize := env.size * env.size
-	// test1 := []int {1,3,7,4,8,6,5,2,0}
 	tab := initial.state1D
-	// final = env.finalState.state1D
-	zeroPos := (initial.zeroCoord.x+1)*(initial.zeroCoord.y+1) - 1
-	fmt.Println(initial.state1D)
-
-	fmt.Println(" zeropos", zeroPos)
+	zeroPos := env.size*(initial.zeroCoord.y) + initial.zeroCoord.x
 
 	for i := 0; i < sqSize; i++ {
 		for j := i + 1; j < sqSize; j++ {
-			fmt.Println("i : ", i, " j : ", j, "tab[i]", tab[i], "tab[j]", tab[j])
 			if tab[i] != 0 && tab[j] != 0 && tab[i] > tab[j] {
-				fmt.Println("cond")
 				inv++
 			}
 		}
 	}
-	fmt.Println("inv", inv)
-	fmt.Println(zeroPos, env.size, zeroPos/env.size)
 
 	//Width is odd
 	if env.size%2 == 1 {
 		return inv%2 == 1 // True if number of inversions is odd, if even false
-	} else if (zeroPos/env.size)%2 == 1 { //width is even, 0 is on an even row from bottom
+	} else if (zeroPos/env.size)%2 == 0 { //width is even, 0 is on an even row from bottom
 		fmt.Println("else if", inv%1)
-		return inv%2 == 0
+		return inv%2 == 1 // True if number of inversions is odd, if even false
 	} else {
 		fmt.Println("else", inv%2)
 		return inv%2 == 0
@@ -119,14 +109,14 @@ func parse(fileName string) int {
 		if string(str) != "" { // si la ligne n'est pas un commentaire
 			str2 := re2.ReplaceAll(str, []byte(""))
 			if lines == env.size {
-				println("not well formated: too much lines")
+				log.Fatal("not well formated: too much lines")
 				twoD = nil
-				return 0
+				os.Exit(1)
 			}
 			if !strings.EqualFold(string(str2), string(str)) { //si la ligne contient un caractere indesirable
-				println("not well formated")
+				log.Fatal("not well formated")
 				twoD = nil
-				return 0
+				os.Exit(1)
 			}
 			if env.size == -1 { //si la taille du taquin n'a pas encore été set
 				str3 := re3.Find(str2)
@@ -136,9 +126,9 @@ func parse(fileName string) int {
 			} else {
 				str4 := re4.FindAll(str2, -1)
 				if len(str4) != env.size {
-					println("not well formated")
+					log.Fatal("not well formated")
 					twoD = nil
-					return 0
+					os.Exit(1)
 				}
 				twoD = fillLines(str4, twoD, lines)
 				lines++
@@ -149,8 +139,8 @@ func parse(fileName string) int {
 	//Print twoD tab
 	if len(twoD) != env.size {
 		twoD = nil
-		println("Lines missing or wrong size")
-		return 0
+		log.Fatal("Lines missing or wrong size")
+		os.Exit(1)
 	}
 	print("print twoD:\n")
 	for _, elem := range twoD {
@@ -180,10 +170,10 @@ func parse(fileName string) int {
 	//Print oneD tabd
 	print("\n")
 	if len(oneD) != max {
-		print("wrong format: uncorrect numbers\n")
+		log.Fatal("wrong format: uncorrect numbers\n")
 		twoD = nil
 		oneD = nil
-		return 0
+		os.Exit(1)
 	}
 	print("what do we return ?\n")
 	createFirstState(twoD)
