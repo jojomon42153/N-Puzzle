@@ -14,30 +14,21 @@ package main
 
 import (
 	"bufio"
-	//"fmt"
 	"strconv"
 	"strings"
-
-	//"fmt"
 	"log"
 	"os"
 	"regexp"
 )
 
-func nik(str [][]byte, twoD [][]int) [][]int {
+func fillLines(str [][]byte, twoD [][]int, lines int) [][]int {
 	i := 0
-	if len(twoD) == 0 {
+	if lines  == 0 {
 		twoD = make([][]int, env.size)
-
 	}
 	for _, elem := range str {
-		//println(twoD);
-		//println(string(elem));
-		//println(len(twoD));
 		i, _ = strconv.Atoi(string(elem))
-
-		twoD[len(twoD)-1] = append(twoD[len(twoD)-1], i)
-
+		twoD[lines] = append(twoD[lines], i)
 	}
 	return twoD
 }
@@ -49,8 +40,9 @@ func parse() int {
 	re2 := regexp.MustCompile(`[^0-9 $]`)   //verifie qu'il n'y ai pas des caracteres de merde
 	re3 := regexp.MustCompile(`^([0-9]+)$`) // recupere la size du taquin
 	re4 := regexp.MustCompile(`([0-9]+)`)   // recupere une ligne du taquin
-	str := ""
 	file, err := os.Open("test.txt")
+    lines := 0
+    er := false
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,8 +53,16 @@ func parse() int {
 		str := re.ReplaceAll(text, []byte(""))
 		if string(str) != "" { // si la ligne n'est pas un commentaire
 			str2 := re2.ReplaceAll(str, []byte(""))
+            if lines == env.size{
+				println("not well formated: too much lines")
+                twoD = nil;
+                er = true 
+                break;
+            }
 			if !strings.EqualFold(string(str2), string(str)) { //si la ligne contient un caractere indesirable
 				println("not well formated")
+                twoD = nil;
+                er = true 
 				break
 			}
 			if env.size == -1 { //si la taille du taquin n'a pas encore été set
@@ -72,19 +72,29 @@ func parse() int {
 				}
 			} else {
 				str4 := re4.FindAll(str2, -1)
-				//println(string(str4[0]))
 				if len(str4) != env.size {
 					println("not well formated")
+                    twoD = nil;
+                    er = true 
 					break
 				}
-				twoD = nik(str4, twoD)
-				//println(twoD[0][0]);
-
+				twoD = fillLines(str4, twoD, lines)
+                lines++
 			}
 		}
-
-		//str += scanner.Text();
 	}
-	print(str)
+
+    //Print twoD tab
+    if len(twoD) != env.size && !er{
+        twoD = nil;
+        println("Lines missing or wrong size")
+    }
+    for _, elem := range twoD {
+        for _, e := range elem {
+            print(e)
+            print(" ")
+        }
+        print("\n")
+    }
 	return 6
 }
