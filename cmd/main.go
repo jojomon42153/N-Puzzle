@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 23:11:38 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/29 00:44:19 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ func main() {
 	go updateNbClosed()
 
 	calcHeuristicCost = manhattan
-	parse("ressources/correctInput/taquin_dim3_0.txt")
+	parse("ressources/correctInput/taquin_dim4_1.txt")
 
 	aStar()
 

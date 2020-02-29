@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 15:12:59 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/29 03:08:30 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ func (me *openedSet) isEmpty() bool {
 func (me *openedSet) insertWithCostPriority(new *state) {
 	me.tab = append(me.tab, new)
 	sorted := false
+	newIndex := len(me.tab) - 1
 	for !sorted {
-		newIndex := len(me.tab) - 1
 		parentIndex := int(math.Floor(float64((newIndex - 1) / 2)))
 		if me.tab[newIndex].totalCost < me.tab[parentIndex].totalCost {
 			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex]
+			newIndex = parentIndex
 		} else {
 			sorted = true
 		}
@@ -102,9 +103,8 @@ func (me *openedSet) pullLowestCost() *state {
 
 		if len(me.tab) == leftChildIndex+1 { // Si le tableau sarrete sur une branche gauche
 			bestChildIndex = leftChildIndex
-		} else if len(me.tab) < rightChildIndex+1 && len(me.tab) != leftChildIndex+1 {
+		} else if len(me.tab) < rightChildIndex+1 {
 			bestChildIndex = toSortIndex
-
 		} else if me.tab[leftChildIndex].totalCost > me.tab[rightChildIndex].totalCost {
 			bestChildIndex = rightChildIndex
 		} else {

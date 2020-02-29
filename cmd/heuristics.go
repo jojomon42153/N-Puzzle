@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/02/28 20:04:16 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/29 02:51:27 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ func euclidian(current *state) {
 	for i := 0; i < env.size; i++ {
 		for j := 0; j < env.size; j++ {
 			if current.state2D[i][j] != env.finalState.state2D[i][j] {
-
 				goalC := env.finalState.coord[current.state2D[i][j]]
 				currentErr := math.Pow(float64(i-goalC.x), 2) + math.Pow(float64(j-goalC.y), 2)
 				sum += currentErr
@@ -33,6 +32,7 @@ func euclidian(current *state) {
 		}
 	}
 	current.heuristicCost += int(sum)
+	current.totalCost = int(sum) //+ current.initialCost
 }
 
 /* Tiles out of place heuristic */
@@ -47,7 +47,8 @@ func tilesOutOfPlace(current *state) {
 			counter++
 		}
 	}
-	current.heuristicCost += int(counter)
+	current.heuristicCost += counter
+	current.totalCost = counter //+ current.initialCost
 }
 
 func manhattan(actualState *state) {
@@ -62,4 +63,5 @@ func manhattan(actualState *state) {
 		}
 	}
 	actualState.heuristicCost += cost
+	actualState.totalCost = cost //+ actualState.initialCost
 }
