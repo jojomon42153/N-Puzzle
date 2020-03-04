@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heuristics.go                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/02/29 02:51:27 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/03/04 16:24:18 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -40,13 +41,15 @@ func euclidian(current *state) {
 func tilesOutOfPlace(current *state) {
 
 	counter := 0
-	sqSize := env.size * env.size
 
-	for i := 0; i < sqSize; i++ {
-		if current.state1D[i] != env.finalState.state1D[i] {
-			counter++
+	for i := 0; i < env.size; i++ {
+		for j := 0; j < env.size; j++ {
+			if current.state2D[i][j] != env.finalState.state2D[i][j] {
+				counter++
+			}
 		}
 	}
+	fmt.Println("toop", counter)
 	current.heuristicCost += counter
 	current.totalCost = counter //+ current.initialCost
 }
