@@ -6,14 +6,13 @@
 /*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/04 16:24:18 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/03/04 16:48:13 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -49,7 +48,6 @@ func tilesOutOfPlace(current *state) {
 			}
 		}
 	}
-	fmt.Println("toop", counter)
 	current.heuristicCost += counter
 	current.totalCost = counter //+ current.initialCost
 }
