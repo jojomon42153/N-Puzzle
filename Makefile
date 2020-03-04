@@ -6,7 +6,7 @@
 #    By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by jmonneri          #+#    #+#              #
-#    Updated: 2020/02/28 17:39:29 by jmonneri         ###   ########.fr        #
+#    Updated: 2020/03/04 17:01:09 by jmonneri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ script: all
 	@sh tests.sh
 
 run: all
-	@$(EXECPATH) $(TEST_FILE)
+	@$(EXECPATH) -f $(TEST_FILE) -hm
 	
 %:
 	@:
