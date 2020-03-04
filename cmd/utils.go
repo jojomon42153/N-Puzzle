@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 14:07:46 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/02/29 02:39:36 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ func printState(state *state) {
 
 func printSolve(state *state) {
 	if state == nil {
-		fmt.Println("parent nil")
 		return
 	}
 	printSolve(state.parent)
@@ -95,4 +94,22 @@ func abs(value int) int {
 		return -value
 	}
 	return value
+}
+
+func printOpenSet() {
+	tab := env.openedSet.tab
+
+	i := 0
+	fmt.Println("==================")
+	for index, elem := range tab {
+		fmt.Printf("index = %d || h = %d || i = %d || t = %d\n", index, elem.heuristicCost, elem.initialCost, elem.totalCost)
+		if index == 0 {
+			i = 2
+			fmt.Printf("\n")
+		} else if index == i {
+			fmt.Printf("\n")
+			i += i * 2
+		}
+	}
+	fmt.Println("==================")
 }
