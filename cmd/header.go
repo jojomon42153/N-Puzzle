@@ -128,6 +128,7 @@ func (me *openedSet) pullLowestCost() *state {
 // finalCoord => tableau de pointeur sur coordonnee definissant le final state
 // stats => structure stats
 var env struct {
+	fileName   string
 	openedSet  *openedSet
 	closedSet  map[string]*state
 	allSets    map[string]*state
@@ -136,8 +137,8 @@ var env struct {
 	stats      stats
 }
 
-var calcHeuristicCost func(*state)
 var ch map[string]chan int
+var calcHeuristicCost []func(*state)
 
 const (
 	incr = 0

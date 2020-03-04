@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/29 03:00:22 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/03/04 16:54:10 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func countNbChilds(zeroCoord coord) int {
@@ -83,8 +82,6 @@ func moveToClosed(toMove *state) {
 func aStar() {
 	success := false
 	for !(env.openedSet.isEmpty()) || success == false {
-		printOpenSet()
-		time.Sleep(time.Second)
 		var current = env.openedSet.pullLowestCost()
 		if current.heuristicCost == 0 { // If current is the solution
 			env.finalState = current
@@ -95,7 +92,7 @@ func aStar() {
 		moveToClosed(current)
 		for _, child := range childs {
 			if previous, ok := env.allSets[child.index]; !ok { // If child is a new state, calc heuristic and sort it in openedSet
-				calcHeuristicCost(child)
+				calculHeuristique(child)
 				env.openedSet.insertWithCostPriority(child)
 				env.allSets[child.index] = child
 			} else if previous.initialCost > child.initialCost {
