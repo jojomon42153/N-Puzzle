@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/29 03:08:30 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/03/04 18:51:56 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ type state struct {
 }
 
 // Structure utilisée pour stocker les informations statistiques generales
-// nbOpened => nombre total de states ayant ete dans l'openedSet
-// nbClosed => nombre maximal de states presents en mémoire au meme moment (max(nbOpenedSet+nbClosedSet))
+// nbOpened => nombre total de states ayant ete deployes
+// nbMaxAllocated => nombre maximal de states presents en mémoire au meme moment (max(nbOpenedSet+nbClosedSet))
 // nbMoves => nombre de coups totaux de la solution finale
 type stats struct {
 	nbOpened    int
@@ -69,6 +69,7 @@ func (me *openedSet) isEmpty() bool {
 }
 
 func (me *openedSet) insertWithCostPriority(new *state) {
+	ch["nbOpened"] <- decr // on decremente la stat du nombre de states open
 	me.tab = append(me.tab, new)
 	sorted := false
 	newIndex := len(me.tab) - 1
@@ -85,6 +86,7 @@ func (me *openedSet) insertWithCostPriority(new *state) {
 
 func (me *openedSet) pullLowestCost() *state {
 	bestState := me.tab[0]
+	ch["nbOpened"] <- decr // on decremente la stat du nombre de states open
 	if len(me.tab) == 1 {
 		me.tab = make([]*state, 0)
 		return bestState
@@ -103,7 +105,7 @@ func (me *openedSet) pullLowestCost() *state {
 
 		if len(me.tab) == leftChildIndex+1 { // Si le tableau sarrete sur une branche gauche
 			bestChildIndex = leftChildIndex
-		} else if len(me.tab) < rightChildIndex+1 {
+		} else if len(me.tab) < rightChildIndex+1 { // Sinon si
 			bestChildIndex = toSortIndex
 		} else if me.tab[leftChildIndex].totalCost > me.tab[rightChildIndex].totalCost {
 			bestChildIndex = rightChildIndex

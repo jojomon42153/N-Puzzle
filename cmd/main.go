@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/04 17:01:44 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/03/04 17:54:11 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ func main() {
 
 	arg()
 	parse(env.fileName)
-	parse("ressources/correctInput/taquin_dim4_1.txt")
 	aStar()
 	for _, chanel := range ch {
+		chanel <- exit
 		close(chanel)
 	}
 }

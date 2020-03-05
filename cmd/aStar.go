@@ -6,7 +6,7 @@
 /*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/04 16:54:10 by jmonneri         ###   ########.fr       */
+/*   Updated: 2020/03/04 17:50:38 by jmonneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ func generateNextMoves(current *state) []*state {
 }
 
 func moveToClosed(toMove *state) {
+	ch["nbClosed"] <- incr // on incremente la stat du nombre de states closed
 	toMove.isOpen = false
 	env.closedSet[toMove.index] = toMove
 }
@@ -96,19 +97,16 @@ func aStar() {
 				env.openedSet.insertWithCostPriority(child)
 				env.allSets[child.index] = child
 			} else if previous.initialCost > child.initialCost {
+				previous.initialCost = child.initialCost
+				previous.parent = child.parent
 				if !previous.isOpen {
-					child.heuristicCost = previous.heuristicCost
-					child.totalCost = child.heuristicCost + child.initialCost
-					delete(env.closedSet, child.index)
+					delete(env.closedSet, previous.index)
+					previous.isOpen = true
 					env.openedSet.insertWithCostPriority(child)
-					env.allSets[child.index] = child
-				} else {
-					previous.totalCost += previous.initialCost - child.initialCost
-					previous.initialCost = child.initialCost
+					env.allSets[previous.index] = previous
 				}
-			} else {
-				child = nil
 			}
+			child = nil
 		}
 	}
 	if success {
