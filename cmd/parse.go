@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.go                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/04 16:58:59 by jmonneri         ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   parse.go                                         .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: jojomoon <jojomoon@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2020/02/26 15:19:49 by jmonneri     #+#   ##    ##    #+#       */
+/*   Updated: 2020/03/05 17:06:48 by jojomoon    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
-
 package main
 
 import (
@@ -99,7 +99,7 @@ func fillLines(str [][]byte, twoD [][]int, lines *int) [][]int {
 	return twoD
 }
 
-func parse(fileName string) int {
+func parse(fileName string) {
 	env.size = -1
 	var twoD [][]int
 	re := regexp.MustCompile(`[#][\S ]*`)   // enleve les commentaires
@@ -118,16 +118,13 @@ func parse(fileName string) int {
 		str := re.ReplaceAll(text, []byte(""))
 		if string(str) != "" { // si la ligne n'est pas un commentaire
 			str2 := re2.ReplaceAll(str, []byte(""))
-			print("str : ")
-			print(string(str2))
-			print("\n")
 			if lines == env.size {
-				log.Fatal("not well formated: too much lines")
+				log.Fatal("Format error: Too much lines")
 				twoD = nil
 				os.Exit(1)
 			}
 			if !strings.EqualFold(string(str2), string(str)) { //si la ligne contient un caractere indesirable
-				log.Fatal("not well formated: bad char")
+				log.Fatal("Format error: Bad char")
 				twoD = nil
 				os.Exit(1)
 			}
@@ -146,16 +143,8 @@ func parse(fileName string) int {
 	//Print twoD tab
 	if len(twoD) != env.size {
 		twoD = nil
-		log.Fatal("Lines missing or wrong size")
+		log.Fatal("Format error: Lines missing or wrong size")
 		os.Exit(1)
-	}
-	print("print twoD:\n")
-	for _, elem := range twoD {
-		for _, e := range elem {
-			print(e)
-			print(" ")
-		}
-		print("\n")
 	}
 
 	var oneD []int
@@ -169,20 +158,14 @@ func parse(fileName string) int {
 			}
 		}
 	}
-	print("print oneD:\n")
-	for _, e := range oneD {
-		print(e)
-		print(" ")
-	}
 	//Print oneD tabd
 	print("\n")
 	if len(oneD) != max {
-		log.Fatal("wrong format: uncorrect numbers\n")
+		log.Fatal("Format error: Uncorrect numbers\n")
 		twoD = nil
 		oneD = nil
 		os.Exit(1)
 	}
-	print("what do we return ?\n")
+
 	createFirstState(twoD)
-	return 6
 }
