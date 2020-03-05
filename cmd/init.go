@@ -1,13 +1,14 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.go                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/26 11:03:41 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/02/28 17:38:35 by jmonneri         ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   init.go                                          .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: jojomoon <jojomoon@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2020/02/26 11:03:41 by jmonneri     #+#   ##    ##    #+#       */
+/*   Updated: 2020/03/05 16:53:48 by jojomoon    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
 
 package main
@@ -90,5 +91,5 @@ func initEnv(n int) {
 	env.closedSet = make(map[string]*state)
 	env.allSets = make(map[string]*state)
 	env.finalState = initFinalState()
-	env.stats = stats{0, 0, 0, 0, 0, 0}
+	env.stats = stats{0, 0, 0, 0, 0, 0, 0}
 }

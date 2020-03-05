@@ -6,10 +6,11 @@
 /*   By: jojomoon <jojomoon@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/02/26 13:48:27 by jmonneri     #+#   ##    ##    #+#       */
-/*   Updated: 2020/03/05 17:10:06 by jojomoon    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/03/05 18:40:21 by jojomoon    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
+
 package main
 
 import (
@@ -17,12 +18,6 @@ import (
 	"log"
 	"os"
 )
-
-func calculHeuristique(state *state) {
-	for _, function := range calcHeuristicCost {
-		function(state)
-	}
-}
 
 func arg() {
 	manhattanPtr := flag.Bool("hm", false, ": select manhattan as heuristic")

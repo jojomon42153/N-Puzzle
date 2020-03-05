@@ -1,13 +1,14 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   header.go                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/04 18:51:56 by jmonneri         ###   ########.fr       */
-/*                                                                            */
+/*                                                          LE - /            */
+/*                                                              /             */
+/*   header.go                                        .::    .:/ .      .::   */
+/*                                                 +:+:+   +:    +:  +:+:+    */
+/*   By: jojomoon <jojomoon@student.le-101.fr>      +:+   +:    +:    +:+     */
+/*                                                 #+#   #+    #+    #+#      */
+/*   Created: 2019/10/30 17:52:04 by jmonneri     #+#   ##    ##    #+#       */
+/*   Updated: 2020/03/05 18:48:08 by jojomoon    ###    #+. /#+    ###.fr     */
+/*                                                         /                  */
+/*                                                        /                   */
 /* ************************************************************************** */
 
 package main
@@ -51,7 +52,8 @@ type stats struct {
 	nbClosed    int
 	nbTotal     int
 	nbMaxOpened int
-	nbMaxTotal  int
+	nbMaxClosed int
+	nbEvaluated int
 	nbMoves     int
 }
 
@@ -69,49 +71,60 @@ func (me *openedSet) isEmpty() bool {
 }
 
 func (me *openedSet) insertWithCostPriority(new *state) {
-	ch["nbOpened"] <- decr // on decremente la stat du nombre de states open
-	me.tab = append(me.tab, new)
+	ch["nbOpened"] <- incr       // On incrémente le nombre de states open
+	me.tab = append(me.tab, new) // On rajoute le state a la fin de l'arbre
 	sorted := false
-	newIndex := len(me.tab) - 1
+	newIndex := len(me.tab) - 1 // On enregistre son index
 	for !sorted {
-		parentIndex := int(math.Floor(float64((newIndex - 1) / 2)))
-		if me.tab[newIndex].totalCost < me.tab[parentIndex].totalCost {
-			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex]
+		parentIndex := int(math.Floor(float64((newIndex - 1) / 2)))     // On calcule l'index du parent
+		if me.tab[newIndex].totalCost < me.tab[parentIndex].totalCost { // Si le coût du parent est plus cher que celui que l'on trie...
+			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex] // ... on échange les 2
 			newIndex = parentIndex
-		} else {
+		} else if me.tab[newIndex].totalCost == me.tab[parentIndex].totalCost && me.tab[newIndex].initialCost < me.tab[parentIndex].initialCost { // Si les 2 coûts sont égaux mais que l'initialCost du parent est plus élevé...
+			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex] // ... on échange les 2
+			newIndex = parentIndex
+		} else { // Ici le parent est prioritaire sur notre state donc on coupe le tri
 			sorted = true
 		}
 	}
 }
 
 func (me *openedSet) pullLowestCost() *state {
-	bestState := me.tab[0]
-	ch["nbOpened"] <- decr // on decremente la stat du nombre de states open
+	bestState := me.tab[0] // On sauvegarde le meilleur état
+	ch["nbOpened"] <- decr // On décrémente le nombre de states open
 	if len(me.tab) == 1 {
 		me.tab = make([]*state, 0)
 		return bestState
 	}
-	// Now we will construct back the "tree"
+	// On reconstruit le tas en mettant le dernier element a la place du premier
 	me.tab[0] = me.tab[len(me.tab)-1]
 	me.tab = me.tab[:len(me.tab)-1]
-	// The tree is constructed but the first value is not sorted
+	// Le tas est construit mais il faut le retrier
 	sorted := false
 	toSortIndex := 0
 
 	for !sorted {
 		var bestChildIndex int
-		leftChildIndex := toSortIndex*2 + 1
+		leftChildIndex := toSortIndex*2 + 1 // On calcule l'index des enfants dans le tableau
 		rightChildIndex := leftChildIndex + 1
 
-		if len(me.tab) == leftChildIndex+1 { // Si le tableau sarrete sur une branche gauche
+		// On cherche quel noeud enfant a le meilleur score
+		if len(me.tab) == leftChildIndex+1 { // Si le tableau s'arrête sur une branche gauche
 			bestChildIndex = leftChildIndex
-		} else if len(me.tab) < rightChildIndex+1 { // Sinon si
+		} else if len(me.tab) < leftChildIndex+1 { // Sinon s'il n'y a pas de branche en dessous
 			bestChildIndex = toSortIndex
-		} else if me.tab[leftChildIndex].totalCost > me.tab[rightChildIndex].totalCost {
-			bestChildIndex = rightChildIndex
-		} else {
+		} else if me.tab[leftChildIndex].totalCost == me.tab[rightChildIndex].totalCost { // Si les 2 branches enfant ont le même coût total, on prend celui qui a le moindre initialCost
+			if me.tab[rightChildIndex].initialCost <= me.tab[leftChildIndex].initialCost {
+				bestChildIndex = rightChildIndex
+			} else {
+				bestChildIndex = leftChildIndex
+			}
+		} else if me.tab[leftChildIndex].totalCost < me.tab[rightChildIndex].totalCost { // Sinon si la branche gauche a le moindre coût
 			bestChildIndex = leftChildIndex
+		} else { // Ici la branche droite a le moindre coût
+			bestChildIndex = rightChildIndex
 		}
+		// On echange le noeud actuel avec celui de la meilleure branche si elle a un coût moindre ou on arrête le tri
 		if me.tab[toSortIndex].totalCost > me.tab[bestChildIndex].totalCost {
 			me.tab[toSortIndex], me.tab[bestChildIndex] = me.tab[bestChildIndex], me.tab[toSortIndex]
 			toSortIndex = bestChildIndex
