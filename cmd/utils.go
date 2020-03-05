@@ -6,7 +6,7 @@
 /*   By: jojomoon <jojomoon@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:25:44 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/05 19:23:04 by jojomoon         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 19:32:54 by jojomoon         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ func printState(state *state) {
 	for _, line := range state.state2D {
 		fmt.Println(line)
 	}
-	fmt.Println(state.initialCost, " || ", state.heuristicCost)
+	fmt.Println(state.initialCost, "||", state.heuristicCost)
 }
 
 func printSolve(state *state) {
@@ -86,7 +86,10 @@ func printSolve(state *state) {
 	}
 	printSolve(state.parent)
 	printState(state)
-	fmt.Println("=======")
+	for i := 0; i < env.size*2+1; i++ {
+		fmt.Printf("=")
+	}
+	fmt.Println()
 }
 
 func abs(value int) int {

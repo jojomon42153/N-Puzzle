@@ -6,15 +6,13 @@
 /*   By: jojomoon <jojomoon@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/05 19:22:22 by jojomoon         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 19:35:27 by jojomoon         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 /*
 	Evalue le coût heuristique du state en le passant dans toutes les fonctions heuristiques demandées en paramètre
@@ -131,8 +129,8 @@ func aStar() {
 		}
 	}
 	if success {
+		fmt.Println("Solution found!\n===============")
 		printSolve(env.finalState)
-		fmt.Printf("OpenSet = %d\nCloseSet = %d\n", len(env.openedSet.tab), len(env.closedSet))
-		fmt.Println("ALLEZ A LA TEUF")
+		fmt.Printf("\nComplexity in time = %d\nComplexity in size = %d\nTotal number of moves = %d\n", env.stats.nbEvaluated, env.stats.nbTotal, env.finalState.initialCost)
 	}
 }
