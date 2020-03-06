@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aStar.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojomoon <jojomoon@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/05 19:35:27 by jojomoon         ###   ########lyon.fr   */
+/*   Updated: 2020/03/06 16:08:06 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ func aStar() {
 					delete(env.closedSet, previous.index) // ... on l'enleve du closedSet...
 					ch["nbClosed"] <- decr
 					previous.isOpen = true
-					env.openedSet.insertWithCostPriority(child) // ... et on le met dans l'openSet
+					env.openedSet.insertWithCostPriority(previous) // ... et on le met dans l'openSet
 					env.allSets[previous.index] = previous
 				}
 			}

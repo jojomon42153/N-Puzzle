@@ -6,7 +6,7 @@
 /*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 14:12:47 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/04 16:48:13 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/03/06 16:03:24 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ func euclidian(current *state) {
 		}
 	}
 	current.heuristicCost += int(sum)
-	current.totalCost = int(sum) //+ current.initialCost
+	current.totalCost = int(sum) + current.initialCost
 }
 
 /* Tiles out of place heuristic */
@@ -49,7 +49,7 @@ func tilesOutOfPlace(current *state) {
 		}
 	}
 	current.heuristicCost += counter
-	current.totalCost = counter //+ current.initialCost
+	current.totalCost = counter + current.initialCost
 }
 
 func manhattan(actualState *state) {
@@ -64,5 +64,5 @@ func manhattan(actualState *state) {
 		}
 	}
 	actualState.heuristicCost += cost
-	actualState.totalCost = cost //+ actualState.initialCost
+	actualState.totalCost = cost + actualState.initialCost
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.go                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojomoon <jojomoon@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/05 19:22:12 by jojomoon         ###   ########lyon.fr   */
+/*   Updated: 2020/03/06 16:10:16 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"regexp"
@@ -42,7 +41,7 @@ func createFirstState(twoD [][]int) {
 	calculHeuristique(initial)
 
 	if !checkSolvability(initial) {
-		log.Fatal("Taquin is not resolvable")
+		log.Fatal("Taquin is not solvable")
 		os.Exit(1)
 	}
 
@@ -70,10 +69,8 @@ func checkSolvability(initial *state) bool {
 	if env.size%2 == 1 {
 		return inv%2 == 1 // True if number of inversions is odd, if even false
 	} else if (zeroPos/env.size)%2 == 0 { //width is even, 0 is on an even row from bottom
-		fmt.Println("else if", inv%1)
 		return inv%2 == 1 // True if number of inversions is odd, if even false
 	} else {
-		fmt.Println("else", inv%2)
 		return inv%2 == 0
 	}
 }
