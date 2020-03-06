@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmonneri <jmonneri@student.42.fr>          +#+  +:+       +#+         #
+#    By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/30 17:57:13 by jmonneri          #+#    #+#              #
-#    Updated: 2020/03/04 17:55:35 by jmonneri         ###   ########.fr        #
+#    Created: 2019/10/30 17:57:13 by gaennuye          #+#    #+#              #
+#    Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 

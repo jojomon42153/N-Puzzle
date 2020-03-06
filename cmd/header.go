@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jojomoon <jojomoon@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 17:52:04 by jmonneri          #+#    #+#             */
-/*   Updated: 2020/03/05 19:22:30 by jojomoon         ###   ########lyon.fr   */
+/*   Created: 2019/10/30 17:52:04 by gaennuye          #+#    #+#             */
+/*   Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
