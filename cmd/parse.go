@@ -6,7 +6,7 @@
 /*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:19:49 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/03/07 10:00:52 by gaennuye         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ func fillLines(str [][]byte, twoD [][]int, lines *int) [][]int {
 
 	for _, elem := range str { // get line(s)
 		i, _ = strconv.Atoi(string(elem))
+		if *lines == env.size {
+			log.Fatal("Format error : Uncorrect numbers")
+		}
 		twoD[*lines] = append(twoD[*lines], i)
 		count++
 		if count == env.size {
@@ -156,7 +159,7 @@ func parse(fileName string) {
 		}
 	}
 	//Print oneD tabd
-	print("\n")
+	//print("\n")
 	if len(oneD) != max {
 		log.Fatal("Format error: Uncorrect numbers\n")
 		twoD = nil
