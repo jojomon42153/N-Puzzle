@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+         #
+#    By: jojomoon <jojomoon@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by gaennuye          #+#    #+#              #
-#    Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr    #
+#    Updated: 2020/05/06 18:59:29 by jojomoon         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,14 @@ TEST_FILE = ./ressources/correctInput/taquin_dim3_0.txt
 GOPATH = $(shell pwd)
 GOBIN = $(GOPATH)/bin
 GOENV = GOPATH=$(GOPATH) GOBIN=$(GOBIN)  
-FILES = $(wildcard ls cmd/*.go)
+FILES = cmd/algo.go\
+		cmd/header.go\
+		cmd/heuristics.go\
+		cmd/init.go\
+		cmd/main.go\
+		cmd/parse.go\
+		cmd/stats.go\
+		cmd/utils.go
 EXECPATH = ./bin/$(GONAME)
 
 
@@ -36,16 +43,17 @@ get:
 install:
 	@$(GOENV) go install $(GOFILES) 
 
-test: all
+tests: all
+	@./bin/npuzzle -f $(TEST_FILE)
+
+testv: all
+	@./bin/npuzzle -f $(TEST_FILE)
 
 script: all
 	@sh tests.sh
 
 run: all
-	@$(EXECPATH) -f $(TEST_FILE) -hm	
-	
-%:
-	@:
+	@$(EXECPATH) -f $(TEST_FILE) -hm
 
 fclean:
 	@echo "Cleaning"

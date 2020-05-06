@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jojomoon <jojomoon@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 13:48:27 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/05/06 19:03:08 by jojomoon         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 )
 
-func arg() {
+func arg() bool {
+	greedyPtr := flag.Bool("gs", false, ": select greedySearch as algorithm (Astar by default)")
 	manhattanPtr := flag.Bool("hm", false, ": select manhattan as heuristic")
 	toopPtr := flag.Bool("ht", false, ": select toop as heuristic")
 	euclideanPtr := flag.Bool("he", false, ": select euclidean as heuristic")
 	filePtr := flag.String("f", "", ": -f thePuzzle.txt")
 	flag.Parse()
 	if *filePtr == "" {
-		log.Fatal("Argument error: File needed")
+		fmt.Println("Usage of npuzzle:")
 		flag.PrintDefaults()
+		log.Fatal("Argument error: File needed")
 		os.Exit(1)
 	}
 	if *manhattanPtr == true {
@@ -39,6 +42,7 @@ func arg() {
 		calcHeuristicCost = append(calcHeuristicCost, euclidian)
 	}
 	if len(calcHeuristicCost) == 0 {
+		fmt.Println("No heuristics are selected, so calcs will be done with all heurisitcs")
 		calcHeuristicCost = append(calcHeuristicCost, manhattan)
 		calcHeuristicCost = append(calcHeuristicCost, tilesOutOfPlace)
 		calcHeuristicCost = append(calcHeuristicCost, euclidian)
@@ -49,6 +53,7 @@ func arg() {
 	}
 	_ = file.Close()
 	env.fileName = *filePtr
+	return *greedyPtr
 }
 
 func main() {
@@ -59,9 +64,13 @@ func main() {
 	go updateNbOpened()
 	go updateNbClosed()
 
-	arg()
+	greedy := arg()
 	parse(env.fileName)
-	aStar()
+	if !greedy {
+		aStar()
+	} else {
+		greedySearch()
+	}
 	for _, chanel := range ch {
 		chanel <- exit
 		close(chanel)

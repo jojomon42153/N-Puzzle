@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aStar.go                                           :+:      :+:    :+:   */
+/*   algo.go                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jojomoon <jojomoon@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 15:23:56 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/05/06 18:59:25 by jojomoon         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,33 @@ func aStar() {
 					env.allSets[previous.index] = previous
 				}
 			}
+		}
+	}
+	if success {
+		fmt.Println("Solution found!\n===============")
+		printSolve(env.finalState)
+		fmt.Printf("\nComplexity in time = %d\nComplexity in size = %d\nTotal number of moves = %d\n", env.stats.nbEvaluated, env.stats.nbTotal, env.finalState.initialCost)
+	}
+}
+
+func greedySearch() {
+	success := false
+	for !(env.openedSet.isEmpty()) || success == false { // Tant que l'openSet n'est pas vide ou que la solution n'est pas trouvée
+		var current = env.openedSet.pullLowestCostGreedy() // On prend la meilleure solution de l'openSet
+		if current.heuristicCost == 0 {                    // Si on a trouvé la solution, sortir
+			env.finalState = current
+			success = true
+			break
+		}
+		env.stats.nbEvaluated++
+		var childs []*state = generateNextMoves(current) // On génere les coups suivants
+		moveToClosed(current)                            // On passe le state évalué dans le closedSet
+		for _, child := range childs {                   // Pour chaque state enfant...
+			if _, ok := env.allSets[child.index]; !ok { // Si le state enfant n'appartient a aucun set...
+				calculHeuristique(child)
+				env.openedSet.insertWithCostPriorityGreedy(child) // On le rajoute en le triant dans l'openSet
+				env.allSets[child.index] = child
+			} // Différence avec le A* : si le child est deja dans le set on ne le prend pas en compte. Greedy cherche vraiment au plus vite une solution, pas forcement la plus optimale
 		}
 	}
 	if success {

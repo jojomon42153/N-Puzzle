@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.go                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gaennuye <gaennuye@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: jojomoon <jojomoon@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:52:04 by gaennuye          #+#    #+#             */
-/*   Updated: 2020/03/06 16:16:08 by gaennuye         ###   ########lyon.fr   */
+/*   Updated: 2020/05/06 18:45:43 by jojomoon         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,23 @@ func (me *openedSet) insertWithCostPriority(new *state) {
 	}
 }
 
+func (me *openedSet) insertWithCostPriorityGreedy(new *state) {
+	ch["nbOpened"] <- incr       // On incrémente le nombre de states open
+	me.tab = append(me.tab, new) // On rajoute le state a la fin de l'arbre
+	sorted := false
+	newIndex := len(me.tab) - 1 // On enregistre son index
+	for !sorted {
+		parentIndex := int(math.Floor(float64((newIndex - 1) / 2)))             // On calcule l'index du parent
+		if me.tab[newIndex].heuristicCost < me.tab[parentIndex].heuristicCost { // Si le coût du parent est plus cher que celui que l'on trie...
+			me.tab[newIndex], me.tab[parentIndex] = me.tab[parentIndex], me.tab[newIndex] // ... on échange les 2
+			newIndex = parentIndex
+			// ps du pulllowestcost: ici on fait un elseif en moins ;)
+		} else { // Ici le parent est prioritaire sur notre state donc on coupe le tri
+			sorted = true
+		}
+	}
+}
+
 func (me *openedSet) pullLowestCost() *state {
 	bestState := me.tab[0] // On sauvegarde le meilleur état
 	ch["nbOpened"] <- decr // On décrémente le nombre de states open
@@ -121,6 +138,60 @@ func (me *openedSet) pullLowestCost() *state {
 		} else if me.tab[leftChildIndex].totalCost < me.tab[rightChildIndex].totalCost { // Sinon si la branche gauche a le moindre coût
 			bestChildIndex = leftChildIndex
 		} else { // Ici la branche droite a le moindre coût
+			bestChildIndex = rightChildIndex
+		}
+		// On echange le noeud actuel avec celui de la meilleure branche si elle a un coût moindre ou on arrête le tri
+		if me.tab[toSortIndex].totalCost > me.tab[bestChildIndex].totalCost {
+			me.tab[toSortIndex], me.tab[bestChildIndex] = me.tab[bestChildIndex], me.tab[toSortIndex]
+			toSortIndex = bestChildIndex
+		} else {
+			sorted = true
+		}
+	}
+	return bestState
+}
+
+func (me *openedSet) pullLowestCostGreedy() *state {
+	bestState := me.tab[0] // On sauvegarde le meilleur état
+	ch["nbOpened"] <- decr // On décrémente le nombre de states open
+	if len(me.tab) == 1 {
+		me.tab = make([]*state, 0)
+		return bestState
+	}
+	// On reconstruit le tas en mettant le dernier element a la place du premier
+	me.tab[0] = me.tab[len(me.tab)-1]
+	me.tab = me.tab[:len(me.tab)-1]
+	// Le tas est construit mais il faut le retrier, car la premiere valeur ne l'est pas
+	sorted := false
+	toSortIndex := 0
+
+	for !sorted {
+		var bestChildIndex int
+		leftChildIndex := toSortIndex*2 + 1 // On calcule l'index des enfants dans le tableau
+		rightChildIndex := leftChildIndex + 1
+		lastIndex := len(me.tab)
+
+		// On cherche quel noeud enfant a le meilleur score
+		if lastIndex == leftChildIndex+1 { // Si le tableau s'arrête sur une branche gauche
+			bestChildIndex = leftChildIndex
+		} else if lastIndex < leftChildIndex+1 { // Sinon s'il n'y a pas de branche en dessous
+			bestChildIndex = toSortIndex
+		} else if me.tab[leftChildIndex].heuristicCost == me.tab[rightChildIndex].heuristicCost {
+			// Si les 2 branches enfant ont la même heuristique, on prend celle qui a le moindre initialCost
+			// !!!! Cela diffère du greedySearch car le vrai greedy prend la solution entrée la premiere dans ce cas.
+			// Cependant, l'objectif du greedy etant de trouver une solution le plus rapidement possible, dans notre cas
+			// avec heapsort, définir un numéro d'ouverture lors de la creation du child serait une etape en plus a faire,
+			// ce qui rallongerait le traitement. De plus, notre technique permet de selectionner une meilleure solution
+			// que celle du greedy normal. Le choix du greedy de prendre la premiere solution sortie n'accélère pas la résolution.
+			// ps: pour montrer notre bonne foi de vouloir faire du greedy, regarder la difference entre les inserwithcostpriority
+			if me.tab[rightChildIndex].initialCost <= me.tab[leftChildIndex].initialCost {
+				bestChildIndex = rightChildIndex
+			} else {
+				bestChildIndex = leftChildIndex
+			}
+		} else if me.tab[leftChildIndex].heuristicCost < me.tab[rightChildIndex].heuristicCost { // Sinon si la branche gauche a la moindre heuristique
+			bestChildIndex = leftChildIndex
+		} else { // Ici la branche droite a la moindre heuristique
 			bestChildIndex = rightChildIndex
 		}
 		// On echange le noeud actuel avec celui de la meilleure branche si elle a un coût moindre ou on arrête le tri
