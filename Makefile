@@ -6,11 +6,11 @@
 #    By: jojomoon <jojomoon@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/30 17:57:13 by gaennuye          #+#    #+#              #
-#    Updated: 2020/05/06 18:59:29 by jojomoon         ###   ########lyon.fr    #
+#    Updated: 2020/09/08 18:04:30 by jojomoon         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all get install run fclean test
+.PHONY: all get install clean test re
 
 GONAME = npuzzle
 
@@ -43,19 +43,10 @@ get:
 install:
 	@$(GOENV) go install $(GOFILES) 
 
-tests: all
+test: all
 	@./bin/npuzzle -f $(TEST_FILE)
 
-testv: all
-	@./bin/npuzzle -f $(TEST_FILE)
-
-script: all
-	@sh tests.sh
-
-run: all
-	@$(EXECPATH) -f $(TEST_FILE) -hm
-
-fclean:
+clean:
 	@echo "Cleaning"
 	@$(GOENV) go clean
 	@rm -rf ./bin/
