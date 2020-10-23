@@ -53,4 +53,4 @@ Total number of moves = 26
 
 # Datastructure
 To have the maximum note, we had to use a priority queue to sort all states in the opened set of A*.
-I used an heapsort
+I used a heapsort
